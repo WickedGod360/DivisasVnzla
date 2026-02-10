@@ -10,7 +10,7 @@ def main (page: ft.Page):
     page.window.width = 530
     page.window.height = 700
     page.window.resizable = True
-    page.window.icon = "icon.ico"
+    page.window.icon = "/icon.ico"
     page.update()
     page.title = "Divisas Venezuela"
     page.bgcolor = ft.Colors.BLACK
@@ -18,48 +18,48 @@ def main (page: ft.Page):
     page.vertical_alignment = ft.MainAxisAlignment.CENTER
     
 
-    dolar, euro, fecha, hora = fun.tasasBCV()
-    fechaModif=fecha.replace("  ", " ")
+    dolar, euro, fecha, hora = fun.tasas_bcv()
+    fecha_modif=fecha.replace("  ", " ")
     
-    tasa = wg.tBCV(dolar)
-    tasaBCVEur = wg.tBCVEur(euro)
-    fechaTasa = wg.fechaTasa(fechaModif)
+    tasa = wg.tasa_usd(dolar)
+    tasa_bcv_eur = wg.tasa_euro(euro)
+    fecha_tasa = wg.fecha_tasa(fecha_modif)
 
-    bs = wg.tboxBolivares()
-    usd = wg.tboxUSD()
-    eur = wg.tboxEuros()
+    bs = wg.tbox_bolivares()
+    usd = wg.tbox_usd()
+    eur = wg.tbox_euros()
 
     bs.on_change = lambda e: fun.formateo(e, usd, eur, dolar, euro, "bs")
     usd.on_change = lambda e: fun.formateo(e, bs, eur, dolar, euro, "usd")
     eur.on_change = lambda e: fun.formateo(e, bs, usd, dolar, euro, "eur")
 
-    btnBS = wg.btnCopyBS()
-    btnUSD = wg.btnCopyUSD()
-    btnEUR = wg.btnCopyEUR()
-    btnCopyTasa = wg.btnCopyTasaBCV()
-    btnCopyTasaEUR = wg.btnCopyEUR()
-    btnLimpiarTodo = wg.btnLimpiarTodo()
-    btnActualizarTasa = wg.btnActualizarTasa()
+    btn_bs = wg.btn_copiar_bs()
+    btn_usd = wg.btn_copiar_usd()
+    btn_eur = wg.btn_copiar_euro()
+    btn_copiar_tasa_usd = wg.btn_copiar_tasa_usd()
+    btn_copiar_tasa_eur = wg.btn_copiar_euro()
+    btn_limpiar = wg.btn_limpiar()
+    btn_actualizar_tasa = wg.btn_actualizar_tasa()
 
-    btnBS.on_click = lambda e: fun.copiar(e, bs, "txtBox")
-    btnUSD.on_click = lambda e: fun.copiar(e, usd, "txtBox")
-    btnEUR.on_click = lambda e: fun.copiar(e, eur, "txtBox")
-    btnCopyTasa.on_click = lambda e: fun.copiar(e, tasa, "USD")
-    btnCopyTasaEUR.on_click = lambda e: fun.copiar(e, tasaBCVEur, "EUR")
-    btnLimpiarTodo.on_click = lambda e: fun.limpiar(e, bs, usd, eur)
-    btnActualizarTasa.on_click = lambda e: fun.actualizarTasas(e, tasa, tasaBCVEur, fechaTasa)
+    btn_bs.on_click = lambda e: fun.copiar(e, bs, "txtBox")
+    btn_usd.on_click = lambda e: fun.copiar(e, usd, "txtBox")
+    btn_eur.on_click = lambda e: fun.copiar(e, eur, "txtBox")
+    btn_copiar_tasa_usd.on_click = lambda e: fun.copiar(e, tasa, "USD")
+    btn_copiar_tasa_eur.on_click = lambda e: fun.copiar(e, tasa_bcv_eur, "EUR")
+    btn_limpiar.on_click = lambda e: fun.limpiar(e, bs, usd, eur)
+    btn_actualizar_tasa.on_click = lambda e: fun.actualizar_tasas(e, tasa, tasa_bcv_eur, fecha_tasa)
 
     contenedor = ft.Container(
       ft.Column([
-        ft.Row([tasa, btnCopyTasa], alignment=ft.MainAxisAlignment.CENTER),
-        ft.Row([tasaBCVEur, btnCopyTasaEUR], alignment=ft.MainAxisAlignment.CENTER), 
+        ft.Row([tasa, btn_copiar_tasa_usd], alignment=ft.MainAxisAlignment.CENTER),
+        ft.Row([tasa_bcv_eur, btn_copiar_tasa_eur], alignment=ft.MainAxisAlignment.CENTER), 
         ft.Divider(height=30, color=ft.Colors.WHITE),
-        ft.Row([bs, btnBS], alignment=ft.MainAxisAlignment.CENTER),   
-        ft.Row([usd, btnUSD], alignment=ft.MainAxisAlignment.CENTER),
-        ft.Row([eur, btnEUR], alignment=ft.MainAxisAlignment.CENTER),
+        ft.Row([bs, btn_bs], alignment=ft.MainAxisAlignment.CENTER),   
+        ft.Row([usd, btn_usd], alignment=ft.MainAxisAlignment.CENTER),
+        ft.Row([eur, btn_eur], alignment=ft.MainAxisAlignment.CENTER),
         ft.Divider(height=20, color=ft.Colors.WHITE),
-        ft.Row([fechaTasa], alignment=ft.MainAxisAlignment.CENTER),
-        ft.Row([btnLimpiarTodo, btnActualizarTasa], alignment=ft.MainAxisAlignment.CENTER)
+        ft.Row([fecha_tasa], alignment=ft.MainAxisAlignment.CENTER),
+        ft.Row([btn_limpiar, btn_actualizar_tasa], alignment=ft.MainAxisAlignment.CENTER)
       ], alignment=ft.MainAxisAlignment.CENTER),
         bgcolor=ft.Colors.with_opacity(0.1, color="#414141"),
         padding=30,

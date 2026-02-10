@@ -6,7 +6,7 @@ from pyperclip import copy
 
 #Controladores
 
-def tasasBCV():
+def tasas_bcv():
    try: 
     tasas = get_bcv_exchange_rates()['data']
     usdBCV = round(tasas['dolar']['value'], 2)
@@ -20,7 +20,7 @@ def tasasBCV():
       print(f"Error: {e}")
       return usdBCV == 0, eurBCV == 0, fecha == None, hora == None
       
-dolar, euro, fecha, hora = tasasBCV()
+dolar, euro, fecha, hora = tasas_bcv()
 
 def format(numero):
     inicial = "{:,.2f}".format(numero)
@@ -98,12 +98,12 @@ def copiar(e, campo_texto, origen):
     threading.Thread(target=restaurar, daemon=True).start()
 
 
-def actualizarTasas(e, labelUSD, labelEUR, labelFecha):
+def actualizar_tasas(e, labelUSD, labelEUR, labelFecha):
     e.control.disabled = True
     e.control.icon = ft.Icons.DOWNLOAD
     e.control.update()
     e.control.page.update()
-    usd, eur, fecha, hora = tasasBCV()
+    usd, eur, fecha, hora = tasas_bcv()
     usdNum = "".join([c for c in labelUSD.value if c.isdigit() or c == "." or c == ","]).translate(str.maketrans(",.", ".,"))
     eurNum = "".join([c for c in labelEUR.value if c.isdigit() or c == "." or c == ","]).translate(str.maketrans(",.", ".,"))
     print(f"{usdNum} dolares {usd}//////// {eurNum} euros {eur}")
@@ -124,7 +124,7 @@ def actualizarTasas(e, labelUSD, labelEUR, labelFecha):
     def restaurar():
         sleep(1)
         e.control.icon = ft.Icons.UPDATE
-        e.control.icon_color = None # Vuelve al color original
+        e.control.icon_color = None
         e.control.disabled = False
         e.control.update()
         e.control.page.update()
