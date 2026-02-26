@@ -3,7 +3,6 @@ from bcv_exchange_rates.bcv import get_bcv_exchange_rates
 from time import sleep
 import threading
 from pyperclip import copy
-
 #Controladores
 
 def tasas_bcv():
@@ -98,24 +97,27 @@ def copiar(e, campo_texto, origen):
     threading.Thread(target=restaurar, daemon=True).start()
 
 
-def actualizar_tasas(e, labelUSD, labelEUR, labelFecha):
+def actualizar_tasas(e, label_usd, label_eur, label_date):
     e.control.disabled = True
-    e.control.icon = ft.Icons.DOWNLOAD
+    e.control.icon = ft.Icons.INCOMPLETE_CIRCLE
+    e.control.icon_color = ft.Colors.GREY
     e.control.update()
     e.control.page.update()
+   # loop = asyncio.get_running_loop()
+   # resultado = await loop.run_in_executor(None, tasas_bcv)
     usd, eur, fecha, hora = tasas_bcv()
-    usdNum = "".join([c for c in labelUSD.value if c.isdigit() or c == "." or c == ","]).translate(str.maketrans(",.", ".,"))
-    eurNum = "".join([c for c in labelEUR.value if c.isdigit() or c == "." or c == ","]).translate(str.maketrans(",.", ".,"))
-    print(f"{usdNum} dolares {usd}//////// {eurNum} euros {eur}")
+    usd_num = "".join([c for c in label_usd.value if c.isdigit() or c == "." or c == ","]).translate(str.maketrans(",.", ".,"))
+    eur_num = "".join([c for c in label_eur.value if c.isdigit() or c == "." or c == ","]).translate(str.maketrans(",.", ".,"))
+    print(f"{usd_num} dolares {usd}//////// {eur_num} euros {eur}")
 
-    if usdNum == str(usd) and eurNum == str(eur):
+    if usd_num == str(usd) and eur_num == str(eur):
         snack = ft.SnackBar(ft.Text("No hay cambios en la tasa actual."))
         e.control.page.overlay.append(snack)
         snack.open = True
     else:    
-        labelUSD.value = (f"Tasa BCV USD: {format(usd)} Bs")
-        labelEUR.value = (f"Tasa BCV EURO: {format(eur)} Bs")
-        labelFecha.value = (f"Fecha de la tasa: {fecha}")
+        label_usd.value = (f"Tasa BCV USD: {format(usd)} Bs")
+        label_eur.value = (f"Tasa BCV EURO: {format(eur)} Bs")
+        label_date.value = (f"Fecha de la tasa: {fecha}")
         snack = ft.SnackBar(ft.Text("La tasa ha sido actualizada."))
         e.control.page.overlay.append(snack)
         snack.open = True
@@ -124,7 +126,7 @@ def actualizar_tasas(e, labelUSD, labelEUR, labelFecha):
     def restaurar():
         sleep(1)
         e.control.icon = ft.Icons.UPDATE
-        e.control.icon_color = None
+        e.control.icon_color = ft.Colors.WHITE
         e.control.disabled = False
         e.control.update()
         e.control.page.update()

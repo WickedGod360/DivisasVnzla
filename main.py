@@ -7,8 +7,8 @@ def main (page: ft.Page):
     page.fonts = {"Euclid Square": "/fonts/EuclidSquare-Regular.ttf"}
     page.theme = ft.Theme(font_family="Euclid Square")
     page.theme.visual_density = ft.VisualDensity.COMPACT
-    page.window.width = 530
-    page.window.height = 700
+    page.window.width = 500
+    page.window.height = 600
     page.window.resizable = True
     page.window.icon = "/icon.ico"
     page.update()
@@ -60,12 +60,13 @@ def main (page: ft.Page):
         ft.Divider(height=20, color=ft.Colors.WHITE),
         ft.Row([fecha_tasa], alignment=ft.MainAxisAlignment.CENTER),
         ft.Row([btn_limpiar, btn_actualizar_tasa], alignment=ft.MainAxisAlignment.CENTER)
-      ], alignment=ft.MainAxisAlignment.CENTER),
+      ], alignment=ft.MainAxisAlignment.CENTER, expand=True),
         bgcolor=ft.Colors.with_opacity(0.1, color="#414141"),
-        padding=30,
+        padding=10,
         border_radius=10,
         border=ft.border.all(2, ft.Colors.GREY_800),
-        width=450)
+        width=450,
+        expand=True)
     
     page.add(contenedor)
     page.window.center()
